@@ -3,79 +3,146 @@
 // Create Array containing the three options 
 const rpsOptions =  ['rock', 'paper', 'scissors'];
 
+// Set up some variables
+let roundResult="";
+let playerSelection="";
+let computerSelection="";
+let roundCount=0;
+let roundWinner="";
+let winsCPU=0;
+let winsPlayer=0;
+
 // Get Computer's option (random choice)
 const getComputerChoice = (arr) => {
     const random = Math.floor(Math.random() * arr.length, 1);
     let CPUchoice = arr[random];
     return CPUchoice;
 }
-let roundResult="";
-let playerSelection = "";
-let computerSelection="";
 
 function playRound(playerSelection, computerSelection) { 
-  console.log("Let's play Rock, Paper, Scissors!");
-  // make playerSelection text lowercase
+  // prompt user for player selection
   playerSelection=prompt("Please make your selection! Enter 'rock', 'paper' or 'scissors':", "");
+    // make playerSelection text lowercase
   playerSelection = playerSelection.toLowerCase();
+    // get computer selection
   computerSelection = getComputerChoice(rpsOptions);
-  console.log("Player Selection: " + playerSelection);
-  console.log("Computer Selection: " + computerSelection);
-  roundResult="Round Outcome: ";
-
-  // Evaluate who won the round, player or computer?
+  // evaluate who won the round based on player selection
+  // nested switch statement - if player is rock compare against computer options, etc.
   switch(playerSelection) {
     case "rock":
       switch(computerSelection) {
         case "rock": 
-          roundResult=roundResult + "tie";
+          roundResult="tie";
           break;
         case "paper": 
-          roundResult=roundResult + "cpu wins";
+          roundResult="cpu wins";
+          break;
         case "scissors": 
-          roundResult=roundResult + "player wins";
+          roundResult="player wins";
           break;
       }
       break;
     case "paper":
       switch(computerSelection) {
         case "rock": 
-          roundResult=roundResult + "player wins";
+          roundResult="player wins";
           break;
         case "paper": 
-          roundResult=roundResult + "tie";
+          roundResult="tie";
           break;
         case "scissors":
-          roundResult=roundResult + "cpu wins";
+          roundResult="cpu wins";
           break;
       }
       break;
     case "scissors":
       switch(computerSelection) {
         case "rock": 
-          roundResult=roundResult + "cpu wins";
+          roundResult="cpu wins";
           break;
         case "paper":
-          roundResult=roundResult + "player wins";
+          roundResult="player wins";
           break;
         case "scissors":
-          roundResult=roundResult + "tie";
+          roundResult="tie";
           break;
       }
+      break;
+    default:
+          console.log("could not understand your selection. Round voided.");
+          roundResult="void";
     }
-    console.log(roundResult);
+    console.log("| Result: " + roundResult);
+    console.log("| Player selection: " + playerSelection);
+    console.log("| Computer selection: " + computerSelection);
+
+    switch(roundResult) {
+        case "cpu wins":
+          roundWinner="cpu";
+          break;
+        case "player wins":
+          roundWinner="player";
+          break;
+        case "tie":
+          roundWinner="tie";
+          break;
+        case "void":
+          roundWinner="void";
+          break;
+    }
+    roundCount++;
+    console.log("#####################")
   }
 
-  playRound();
+//playRound();
 
-  function game() { 
+function playGame() { 
+  console.log("Let's play Rock, Paper, Scissors!");
+  resetStats();
+  for (let i = 1; i <= 5; i++) {
+    console.log("Starting Round " + i);
+    playRound();
+    // whoever is winner of the round will get a point recorded
+    switch (roundWinner) {
+      case "tie":
+        winsCPU++;
+        winsPlayer++;
+      break;
+      case "player":
+        winsPlayer++;
+      break;
+      case "cpu":
+        winsCPU++;
+      break;
+      case "void":
+        roundCount--;
+      break;
+    roundCount++;
+    } 
   }
-/**
-Write a NEW function called game(). Call the playRound function inside of this one to play a 5 round game that keeps score and reports a winner or loser at the end.
-Remember loops? This is a great opportunity to use one to play those five rounds:
-
-for (let i = 0; i < 5; i++) {
-   // your code here!
+  console.log("### GAME RESULTS ###");
+  console.log("Num rounds played: " + roundCount);
+  console.log("Player won: " + winsPlayer);
+  console.log("Computer won: " + winsCPU); 
+  if (winsCPU > winsPlayer){
+    console.log("CPU Won! Better luck next time");      
+  } else if (winsPlayer > winsCPU) {
+    console.log("Player Wins! Congratulations!");
+  } else if (winsPlayer === winsCPU) {
+    console.log("Tie Game! Amazingly close.")
+  } else {
+    console.log("Something went wrong - please try again");
+  }
 }
-At this point you should be using console.log() to display the results of each round and the winner at the end.
- */
+
+function resetStats(){
+  roundResult="Round Outcome: ";
+  playerSelection="";
+  computerSelection="";
+  roundCount=0;
+  roundWinner="";
+  winsCPU=0;
+  winsPlayer=0;
+}
+
+playGame();
