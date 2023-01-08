@@ -75,6 +75,7 @@ function playRound(playerSelection, computerSelection) {
     console.log("| Result: " + roundResult);
     console.log("| Player selection: " + playerSelection);
     console.log("| Computer selection: " + computerSelection);
+    console.log("**End Round**");
 
     switch(roundResult) {
         case "cpu wins":
@@ -91,16 +92,16 @@ function playRound(playerSelection, computerSelection) {
           break;
     }
     roundCount++;
-    console.log("#####################")
   }
 
 //playRound();
 
 function playGame() { 
+  console.clear();
   console.log("Let's play Rock, Paper, Scissors!");
   resetStats();
   for (let i = 1; i <= 5; i++) {
-    console.log("Starting Round " + i);
+    console.log("**Starting Round " + i + "... Make your selection in Prompt!");
     playRound();
     // whoever is winner of the round will get a point recorded
     switch (roundWinner) {
