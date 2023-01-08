@@ -9,20 +9,19 @@ const getComputerChoice = (arr) => {
     let CPUchoice = arr[random];
     return CPUchoice;
 }
-
-// Test player selection
+let roundResult="";
 let playerSelection = "";
-//console.log(getComputerChoice(rpsOptions));
-const computerSelection = getComputerChoice(rpsOptions);
+let computerSelection="";
 
 function playRound(playerSelection, computerSelection) { 
   console.log("Let's play Rock, Paper, Scissors!");
   // make playerSelection text lowercase
   playerSelection=prompt("Please make your selection! Enter 'rock', 'paper' or 'scissors':", "");
   playerSelection = playerSelection.toLowerCase();
+  computerSelection = getComputerChoice(rpsOptions);
   console.log("Player Selection: " + playerSelection);
   console.log("Computer Selection: " + computerSelection);
-  let roundResult="Outcome: ";
+  roundResult="Round Outcome: ";
 
   // Evaluate who won the round, player or computer?
   switch(playerSelection) {
@@ -67,6 +66,16 @@ function playRound(playerSelection, computerSelection) {
     console.log(roundResult);
   }
 
-//Print result of round
-playRound(playerSelection, computerSelection);
+  playRound();
 
+  function game() { 
+  }
+/**
+Write a NEW function called game(). Call the playRound function inside of this one to play a 5 round game that keeps score and reports a winner or loser at the end.
+Remember loops? This is a great opportunity to use one to play those five rounds:
+
+for (let i = 0; i < 5; i++) {
+   // your code here!
+}
+At this point you should be using console.log() to display the results of each round and the winner at the end.
+ */
