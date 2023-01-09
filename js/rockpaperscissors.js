@@ -20,12 +20,12 @@ const getComputerChoice = (arr) => {
 }
 
 function playRound(playerSelection, computerSelection) { 
-  // prompt user for player selection
+    // get computer selection
+    computerSelection = getComputerChoice(rpsOptions);
+    // prompt user for player selection
   playerSelection=prompt("Please make your selection! Enter 'rock', 'paper' or 'scissors':", "");
     // make playerSelection text lowercase
-  playerSelection = playerSelection.toLowerCase();
-    // get computer selection
-  computerSelection = getComputerChoice(rpsOptions);
+  playerSelection = playerSelection.trim().toLowerCase();
   // evaluate who won the round based on player selection
   // nested switch statement - if player is rock compare against computer options, etc.
   switch(playerSelection) {
@@ -98,7 +98,10 @@ function playRound(playerSelection, computerSelection) {
 
 function playGame() { 
   console.clear();
-  console.log("Let's play Rock, Paper, Scissors!");
+  console.log("Let's play Rock, Paper, Scissors! Player vs Computer");
+  console.log("Five rounds.");
+  console.log("1 point goes to winner of each round.");
+  console.log("Tie = one point to player, one point to CPU");
   resetStats();
   for (let i = 1; i <= 5; i++) {
     console.log("**Starting Round " + i + "... Make your selection in Prompt!");
@@ -123,8 +126,8 @@ function playGame() {
   }
   console.log("### GAME RESULTS ###");
   console.log("Num rounds played: " + roundCount);
-  console.log("Player won: " + winsPlayer);
-  console.log("Computer won: " + winsCPU); 
+  console.log("Player points: " + winsPlayer);
+  console.log("Computer points: " + winsCPU); 
   if (winsCPU > winsPlayer){
     console.log("CPU Won! Better luck next time");      
   } else if (winsPlayer > winsCPU) {
@@ -146,4 +149,4 @@ function resetStats(){
   winsPlayer=0;
 }
 
-playGame();
+// playGame();
