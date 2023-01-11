@@ -4,11 +4,10 @@
 const rpsOptions =  ['rock', 'paper', 'scissors'];
 
 // Set up some variables
-let roundResult=""; // result of each round played
+let roundWinner=""; // will store who won the round
 let playerSelection=""; // what player selected
 let computerSelection=""; // what cpu selected
 let roundCount=0; // will store how many rounds have been played.
-let roundWinner=""; // will store who won the round
 let pointsCPU=0; // store number of points for Computer
 let pointsPlayer=0; // store number of points for Player
 let tieCount=0; // store number of tie rounds in the game
@@ -22,6 +21,8 @@ const getComputerChoice = (arr) => {
 }
 
 function playRound(playerSelection, computerSelection) { 
+  roundWinner=""; // reset roundwinner
+
     // get computer selection
     computerSelection = getComputerChoice(rpsOptions);
     // prompt user for player selection
@@ -34,67 +35,51 @@ function playRound(playerSelection, computerSelection) {
     case "rock":
       switch(computerSelection) {
         case "rock": 
-          roundResult="tie";
+          roundWinner="tie";
           break;
         case "paper": 
-          roundResult="cpu wins";
+          roundWinner="cpu";
           break;
         case "scissors": 
-          roundResult="player wins";
+          roundWinner="player";
           break;
       }
       break;
     case "paper":
       switch(computerSelection) {
         case "rock": 
-          roundResult="player wins";
+          roundWinner="player";
           break;
         case "paper": 
-          roundResult="tie";
+          roundWinner="tie";
           break;
         case "scissors":
-          roundResult="cpu wins";
+          roundWinner="cpu";
           break;
       }
       break;
     case "scissors":
       switch(computerSelection) {
         case "rock": 
-          roundResult="cpu wins";
+          roundWinner="cpu";
           break;
         case "paper":
-          roundResult="player wins";
+          roundWinner="player";
           break;
         case "scissors":
-          roundResult="tie";
+          roundWinner="tie";
           break;
       }
       break;
     default: // if user enters something other than rock paper scissors, no points awarded
           console.log("We could not understand your selection. No points awarded.");
-          roundResult="void";
+          roundWinner="void";
     }
-    console.log(`***** Round Result: ${roundResult} *****`);
+    console.log(`***** Round Winner: ${roundWinner} *****`);
     console.log("| Player selection: " + playerSelection);
     console.log("| Computer selection: " + computerSelection);
-    //console.log("| Result: " + roundResult);
     console.log("***** End Round ************************");
 
-    switch(roundResult) {
-        case "cpu wins":
-          roundWinner="cpu";
-          break;
-        case "player wins":
-          roundWinner="player";
-          break;
-        case "tie":
-          roundWinner="tie";
-          break;
-        case "void":
-          roundWinner="void";
-          break;
-    }
-    roundCount++;
   }
 
 //playRound();
@@ -102,9 +87,7 @@ function playRound(playerSelection, computerSelection) {
 function playGame() { 
   console.clear();
   console.log("Let's play Rock, Paper, Scissors! Player vs Computer");
-  console.log("Five rounds.");
-  console.log("1 point goes to winner of each round.");
-  console.log("Tie = no one gets a point");  //one point to player, one point to CPU
+  // reset all "counters" 
   resetStats();
   for (let i = 1; i <= 5; i++) {
     console.log("**Starting Round " + i + "... Make your selection in Prompt!");
@@ -126,8 +109,9 @@ function playGame() {
         // no points awarded but not a tie - "void" - round will count as "void"
         voidCount++;
       break;
-    roundCount++;
     } 
+    // add one to round count  
+    roundCount++;
   }
   
   console.log("########### GAME RESULTS ############");
@@ -141,12 +125,12 @@ function playGame() {
     console.log("CPU Won! Better luck next time");      
   } else if (pointsPlayer > pointsCPU) {
     console.log("Player Wins! Congratulations!");
-  } else if (tieCount>0 && (pointsPlayer === 0 && pointsCPU == 0)) {
-    console.log("Tie Game, but no one got any points!")    
-  } else if (pointsPlayer === pointsCPU) {
-    console.log("Tie Game! Amazingly close.")
-  } else {
-    console.log("Something went wrong - please try again");
+  } else if (pointsPlayer === 0 && pointsCPU === 0) {
+    if (tieCount>0) {
+      console.log("Tie Game! Amazingly close.");
+    } else if (tieCount===0) {
+      console.log("No one got any points - Nobody Wins!");
+    }
   }
   console.log("########### GAME OVER ############");
 }
@@ -154,7 +138,6 @@ function playGame() {
 
 // reset counts at the beginning of the game
 function resetStats(){
-  roundResult="Round Outcome: ";
   playerSelection="";
   computerSelection="";
   roundCount=0;
